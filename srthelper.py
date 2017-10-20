@@ -8,10 +8,10 @@ def adjust_time(tc, delay):
     # convert timestamp to timedelta
     tc = datetime.datetime.strptime(tc, '%H:%M:%S,%f') - datetime.datetime(1900, 1, 1)
     td = datetime.timedelta(milliseconds=delay)
-
-    if (tc + td).days < 0:
-        return '-' + str(-(tc + td))[:-3].replace('.', ',')
-    return (str(tc + td)[:-3].replace('.', ','))
+    new_tc = tc + td
+    if new_tc.days < 0:
+        return '-' + str(-new_tc)[:-3].replace('.', ',')
+    return (str(new_tc)[:-3].replace('.', ','))
 
 # parse individual file for timecodes
 def read_file(infile, delay=0):
@@ -29,8 +29,8 @@ def main():
     args = parser.parse_args()
 
     # Go through supplied files
-    for f in args.FILES:
-        read_file(f, args.delay)
+    for file in args.FILES:
+        read_file(file, args.delay)
 
 if __name__ == "__main__":
     main()
